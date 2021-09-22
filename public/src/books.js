@@ -19,18 +19,23 @@ function partitionBooksByBorrowedStatus(books) {
   return bookStatus;
 }
 
+//helper function
+function findAccountById(accounts, id) {
+  return accounts.find((act) => act.id === id);
+}
+
 function getBorrowersForBook(book, accounts) {
-  let transactions = book.borrows;
-  let result = transactions.map((transaction) => {
-    const accInfo = accounts.find((account) => account.id === transaction.id);
-    const newTransaction = {
-      ...transaction,
+  let acts = book.borrows;
+  let result = acts.map((act) => {
+    //calling helper function
+    const accInfo = findAccountById(accounts, act.id);
+    const newAct = {
+      ...act,
       ...accInfo,
     };
-    return newTransaction;
+    return newAct;
   });
-  result.splice(10);
-  return result;
+  return result.slice(0,10);
 }
 
 module.exports = {
